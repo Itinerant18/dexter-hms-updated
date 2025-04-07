@@ -151,6 +151,25 @@ $ python seple.py
 
 ---
 
+![Screenshot (59)](https://github.com/user-attachments/assets/3a461fb5-7aeb-4eb8-b3ad-37db242d6f34)
+![Screenshot (58)](https://github.com/user-attachments/assets/77aad114-880d-4acc-91b7-e6621152b0f3)
+![Screenshot (57)](https://github.com/user-attachments/assets/ceb34bf1-2a69-4049-800d-a752ce6af77a)
+![Screenshot (56)](https://github.com/user-attachments/assets/dfd3139f-4b26-4a75-9c43-e41465a445f1)
+![Screenshot (73)](https://github.com/user-attachments/assets/ef7da226-9c30-47bb-adc4-a558fdc97db3)
+![Screenshot (72)](https://github.com/user-attachments/assets/ba764d8d-5aa0-4f6b-b1b8-c142b56b101b)
+![Screenshot (71)](https://github.com/user-attachments/assets/a6c0458a-aac2-4e4f-9090-62a661692346)
+![Screenshot (70)](https://github.com/user-attachments/assets/42bb0a93-cfec-400b-9ad4-b586eebb2e47)
+![Screenshot (69)](https://github.com/user-attachments/assets/a9a585e6-5de6-4d8b-aa57-6c2903725550)
+![Screenshot (68)](https://github.com/user-attachments/assets/1d92fb50-8f94-4d69-a1d0-c5239fbf085e)
+![Screenshot (67)](https://github.com/user-attachments/assets/b76d205c-2b8f-4dfe-b2cb-45c9fef96a2f)
+![Screenshot (66)](https://github.com/user-attachments/assets/4eee0b52-8e5b-4630-908d-7af9d77a9bea)
+![Screenshot (65)](https://github.com/user-attachments/assets/e06b7f77-8aed-498e-9f04-24cc51569b1e)
+![Screenshot (64)](https://github.com/user-attachments/assets/1513cecc-b8ed-4467-9a2a-9ad2d143b15a)
+![Screenshot (63)](https://github.com/user-attachments/assets/dc27851e-7861-40bb-ad61-394d39fd6b1c)
+![Screenshot (62)](https://github.com/user-attachments/assets/8bf6af4d-beac-490e-965f-1ad836cd6a60)
+![Screenshot (61)](https://github.com/user-attachments/assets/8c7f053d-200b-4baf-baa2-639ced90aa74)
+![Screenshot (60)](https://github.com/user-attachments/assets/8bb1dce7-88fa-46fe-87b7-0a85e81744a4)
+
 ## 📜 10. License
 
 📖 This project is licensed under the **MIT License**. See the `LICENSE` file for details.
