@@ -1,0 +1,193 @@
+{% extends "layout.html" %}
+{% block title %}Integration Settings{% endblock %}
+
+
+
+{% block body %}
+<div class="main-content">
+    <div id="breadcrumbContainer">
+        <h5><i class="fas fa-plug"></i> Device Integration > Integration Settings</h5>
+    </div>
+    
+    <!-- Active Integration Section -->
+    <div class="integration-container">
+        <h2 class="section-title"><i class="fas fa-toggle-on"></i> Active Integration</h2>
+        
+        <div class="integration-cards">
+            <!-- HIKVISION NVR Setup -->
+            <div class="integration-card">
+                <h3 class="card-title">HIKVISION NVR</h3>
+                <span class="status-indicator {% if hikvision_nvr_data and hikvision_nvr_data.is_active %}status-active{% else %}status-inactive{% endif %}">
+                    {% if hikvision_nvr_data and hikvision_nvr_data.is_active %}Active{% else %}Inactive{% endif %}
+                </span>
+                
+                <form method="POST" action="/save_integration">
+                    <input type="hidden" name="device_type" value="hikvision-nvr">
+                    
+                    <div class="form-group">
+                        <label for="hikvision_nvr_ip">IP Address</label>
+                        <input type="text" id="hikvision_nvr_ip" name="ip_address" value="{{ hikvision_nvr_data.ip_address if hikvision_nvr_data else '' }}" placeholder="e.g. 192.168.1.100" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hikvision_nvr_port">Port Number</label>
+                        <input type="text" id="hikvision_nvr_port" name="port_number" value="{{ hikvision_nvr_data.port_number if hikvision_nvr_data else '8000' }}" placeholder="e.g. 8000" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hikvision_nvr_username">Username</label>
+                        <input type="text" id="hikvision_nvr_username" name="device_name" value="{{ hikvision_nvr_data.device_name if hikvision_nvr_data else '' }}" placeholder="Username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hikvision_nvr_password">Password</label>
+                        <input type="password" id="hikvision_nvr_password" name="device_password" value="{{ hikvision_nvr_data.device_password if hikvision_nvr_data else '' }}" placeholder="Password">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Configuration
+                    </button>
+                </form>
+            </div>
+            
+            <!-- HIKVISION BACS Setup -->
+            <div class="integration-card">
+                <h3 class="card-title">HIKVISION BACS</h3>
+                <span class="status-indicator {% if hikvision_bacs_data and hikvision_bacs_data.is_active %}status-active{% else %}status-inactive{% endif %}">
+                    {% if hikvision_bacs_data and hikvision_bacs_data.is_active %}Active{% else %}Inactive{% endif %}
+                </span>
+                
+                <form method="POST" action="/save_integration">
+                    <input type="hidden" name="device_type" value="hikvision-bacs">
+                    
+                    <div class="form-group">
+                        <label for="hikvision_bacs_ip">IP Address</label>
+                        <input type="text" id="hikvision_bacs_ip" name="ip_address" value="{{ hikvision_bacs_data.ip_address if hikvision_bacs_data else '' }}" placeholder="e.g. 192.168.1.100" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hikvision_bacs_port">Port Number</label>
+                        <input type="text" id="hikvision_bacs_port" name="port_number" value="{{ hikvision_bacs_data.port_number if hikvision_bacs_data else '8000' }}" placeholder="e.g. 8000" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hikvision_bacs_username">Username</label>
+                        <input type="text" id="hikvision_bacs_username" name="device_name" value="{{ hikvision_bacs_data.device_name if hikvision_bacs_data else '' }}" placeholder="Username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hikvision_bacs_password">Password</label>
+                        <input type="password" id="hikvision_bacs_password" name="device_password" value="{{ hikvision_bacs_data.device_password if hikvision_bacs_data else '' }}" placeholder="Password">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Configuration
+                    </button>
+                </form>
+            </div>
+            
+            <div class="integration-card">
+                <h3 class="card-title">DAHUA NVR</h3>
+                <span class="status-indicator {% if dahua_nvr_data and dahua_nvr_data.is_active %}status-active{% else %}status-inactive{% endif %}">
+                    {% if dahua_nvr_data and dahua_nvr_data.is_active %}Active{% else %}Inactive{% endif %}
+                </span>
+                
+                <form method="POST" action="/save_integration">
+                    <input type="hidden" name="device_type" value="dahua-nvr">
+                    
+                    <div class="form-group">
+                        <label for="dahua_nvr_ip">IP Address</label>
+                        <input type="text" id="dahua_nvr_ip" name="ip_address" value="{{ dahua_nvr_data.ip_address if dahua_nvr_data else '' }}" placeholder="e.g. 192.168.1.100" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dahua_nvr_port">Port Number</label>
+                        <input type="text" id="dahua_nvr_port" name="port_number" value="{{ dahua_nvr_data.port_number if dahua_nvr_data else '37777' }}" placeholder="e.g. 37777" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dahua_nvr_username">Username</label>
+                        <input type="text" id="dahua_nvr_username" name="device_name" value="{{ dahua_nvr_data.device_name if dahua_nvr_data else '' }}" placeholder="Username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dahua_nvr_password">Password</label>
+                        <input type="password" id="dahua_nvr_password" name="device_password" value="{{ dahua_nvr_data.device_password if dahua_nvr_data else '' }}" placeholder="Password">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Configuration
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="integration-container">
+        <h2 class="section-title"><i class="fas fa-clock"></i> Passive Integrations</h2>
+        
+        <div class="integration-cards">
+            <!-- Available for future integration -->
+            <div class="passive-integration">
+                <div class="passive-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <h3>More Integrations Coming Soon</h3>
+                <p class="passive-message">Additional device integration options will be available in future updates.</p>
+            </div>
+            
+            <!-- Another future integration option -->
+            <div class="passive-integration">
+                <div class="passive-icon">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <h3>Cloud Integration</h3>
+                <p class="passive-message">Cloud-based integration services are under development.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add touch event handling for mobile devices
+    document.addEventListener('DOMContentLoaded', function() {
+        // Detect if the device is mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (isMobile) {
+            document.body.classList.add('mobile-device');
+            
+            // Add touch feedback for buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(function(button) {
+                button.addEventListener('touchstart', function() {
+                    this.classList.add('touch-active');
+                });
+                button.addEventListener('touchend', function() {
+                    this.classList.remove('touch-active');
+                });
+            });
+            
+            // Add vibration feedback for button presses
+            document.querySelectorAll('.btn').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    if (navigator.vibrate) {
+                        navigator.vibrate(50);
+                    }
+                });
+            });
+            
+            // Make form inputs more touch-friendly
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(function(input) {
+                input.addEventListener('touchstart', function() {
+                    this.classList.add('touch-active');
+                });
+                input.addEventListener('touchend', function() {
+                    this.classList.remove('touch-active');
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}

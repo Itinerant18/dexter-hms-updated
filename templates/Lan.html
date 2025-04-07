@@ -1,0 +1,230 @@
+{% extends "layout.html" %}
+{% block title %}LAN Settings{% endblock %}
+{% block head %}
+    {{ super() }}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/network.css') }}">
+{% endblock %}
+{% block body %}
+  
+  <div class="main-content">
+      <div class="path_content" id="path_content"> 
+          <div id="breadcrumbContainer"><h5>Network Settings > LAN setup</h5></div>
+      </div>
+      
+      <div class="lan-container">
+          <div class="lan-header">
+              <h1>LAN Setup</h1>
+          </div>
+          
+          <!-- <div class="ip-mode-selection"> -->
+              
+              <div class="mode-buttons">
+                  <button class="mode-btn {% if user2[0][7] == 'static' %}active{% endif %}" data-mode="static">
+                      <i class="fas fa-network-wired"></i>
+                      <span>Static IP</span>
+                  </button>
+                  <button class="mode-btn {% if user2[0][7] == 'dynamic' %}active{% endif %}" data-mode="dynamic">
+                      <i class="fas fa-network-wired"></i>
+                      <span>Dynamic IP (DHCP)</span>
+                  </button>
+              </div>
+          <!-- </div> -->
+
+          <form class="lan-setup" action="/data_lan" method="POST">
+              <div class="form-group">
+                  <label for="ip-address">IP Address</label>
+                  <input type="text" name="set_ip_address" id="ip-address" value="{{user2[0][0]}}" placeholder="Enter IP address">
+              </div>
+              
+              <div class="form-group">
+                  <label for="port-number">Port Number</label>
+                  <input type="text" name="set_port_no" id="port-number" value="{{user2[0][1]}}" placeholder="Enter port number">
+              </div>
+              
+              <div class="form-group">
+                  <label for="subnet-mask">Subnet Mask</label>
+                  <input type="text" name="subnet_mask" id="subnet-mask" value="{{user2[0][2]}}" placeholder="Enter subnet mask">
+              </div>
+              
+              <div class="form-group">
+                  <label for="gateway">Gateway</label>
+                  <input type="text" name="gate_way" id="gateway" value="{{user2[0][3]}}" placeholder="Enter gateway">
+              </div>
+              
+              <div class="form-group">
+                  <label for="preferred-dns">Preferred DNS</label>
+                  <input type="text" name="preferred_dns" id="preferred-dns" value="{{user2[0][4]}}" placeholder="Enter preferred DNS">
+              </div>
+              
+              <div class="form-group">
+                  <label for="alternate-dns">Alternate DNS</label>
+                  <input type="text" name="alternate_dns" id="alternate-dns" value="{{user2[0][5]}}" placeholder="Enter alternate DNS">
+              </div>
+              
+              <div class="form-group">
+                  <label for="apn-settings">APN Settings</label>
+                  <input type="text" name="apn_settings" id="apn-settings" value="{{user2[0][6]}}" placeholder="Enter APN settings">
+              </div>
+              
+             
+                  <button type="submit" class="save-btn" id="save-btn">
+                      <i class="fas fa-save"></i>
+                      Save Network Settings
+                  </button>
+             
+          </form>
+
+          <!-- <div id="network-status" class="network-status"></div> -->
+      </div>
+  </div>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function(){
+          // Mode selection handling
+          const modeButtons = document.querySelectorAll('.mode-btn');
+          modeButtons.forEach(button => {
+              button.addEventListener('click', function() {
+                  modeButtons.forEach(btn => btn.classList.remove('active'));
+                  this.classList.add('active');
+                  
+                  // Send mode change to server
+                  const mode = this.getAttribute('data-mode');
+                  sendData(null, null, null, mode === 'static' ? 1 : 0);
+              });
+              
+              // Add touch support
+              button.addEventListener('touchstart', function() {
+                  this.style.transform = 'scale(0.97)';
+              });
+              
+              button.addEventListener('touchend', function() {
+                  this.style.transform = '';
+              });
+          });
+
+        //   // Network test functionality
+        //   const testBtn = document.getElementById('network-test-btn');
+        //   const statusElement = document.getElementById('network-status');
+          
+        //   testBtn.addEventListener('click', function() {
+        //       statusElement.textContent = "Testing connection...";
+        //       statusElement.className = "network-status testing";
+              
+        //       // Simulate network test
+        //       setTimeout(function() {
+        //           const connected = Math.random() > 0.2;
+        //           if (connected) {
+        //               statusElement.textContent = "Connection Successful";
+        //               statusElement.className = "network-status success";
+        //           } else {
+        //               statusElement.textContent = "Connection Failed";
+        //               statusElement.className = "network-status error";
+        //           }
+        //       }, 1500);
+        //   });
+
+          // Function to send data to server
+          function sendData(network_led_sts, wireless_lan, ip_module, static_or_dynamic) {
+              const data = {
+                  "network_led_sts": network_led_sts,
+                  "wireless_lan": wireless_lan,
+                  "ip_module": ip_module,
+                  "static_or_dynamic": static_or_dynamic
+              };
+              
+              fetch("/data2_lan", {
+                  method: "PUT",
+                  headers: {
+                      "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(data)
+              })
+              .then(response => {
+                  if (response.ok) {
+                      console.log("Data sent successfully");
+                  } else {
+                      console.log("Error sending data");
+                  }
+              })
+              .catch(error => {
+                  console.error("Error:", error);
+              });
+          }
+
+          // Initialize LAN settings
+          function initializelan() {
+              fetch('/get_data2lan')
+              .then(response => {
+                  if (!response.ok) {
+                      console.log("Error getting lan status");
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  const network_led_sts = parseInt(data[0][0]);
+                  const wireless_lan = parseInt(data[0][1]);
+                  const ip_module = parseInt(data[0][2]);
+                  const static_or_dynamic = parseInt(data[0][3]);
+
+                  // Update mode button based on static/dynamic setting
+                  const staticBtn = document.querySelector('.mode-btn[data-mode="static"]');
+                  const dynamicBtn = document.querySelector('.mode-btn[data-mode="dynamic"]');
+                  
+                  if (static_or_dynamic === 1) {
+                      staticBtn.classList.add('active');
+                      dynamicBtn.classList.remove('active');
+                  } else {
+                      dynamicBtn.classList.add('active');
+                      staticBtn.classList.remove('active');
+                  }
+              })
+              .catch(error => {
+                  console.log("Error parsing JSON:", error);
+              });
+          }
+
+          // Form validation
+          const form = document.querySelector('.lan-setup');
+          form.addEventListener('submit', function(e) {
+              const inputs = form.querySelectorAll('input');
+              let isValid = true;
+              
+              inputs.forEach(input => {
+                  if (!input.value.trim()) {
+                      isValid = false;
+                      input.classList.add('error');
+                  } else {
+                      input.classList.remove('error');
+                  }
+              });
+              
+              if (!isValid) {
+                  e.preventDefault();
+                  alert('Please fill in all required fields');
+              }
+          });
+          
+          // Add touch support for save button
+          const saveBtn = document.getElementById('save-btn');
+          if (saveBtn) {
+              saveBtn.addEventListener('touchstart', function() {
+                  this.style.transform = 'scale(0.97)';
+              });
+              
+              saveBtn.addEventListener('touchend', function() {
+                  this.style.transform = '';
+              });
+          }
+
+          // Initialize the page
+          initializelan();
+      });
+  </script>
+  
+  {% if lansetup %}
+  <script>
+      alert("Setup completed successfully");
+  </script>
+  {% endif %}
+{% endblock %}

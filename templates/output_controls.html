@@ -1,0 +1,166 @@
+{% extends "layout.html" %}
+{% block title %}Output Controls{% endblock %}
+{% block head %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/output_controls.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="main-content">
+    <div class="path_content" id="path_content">
+        <div id="breadcrumbContainer">
+            <h5><i class="fas fa-cog"></i> Device Configuration > Output Management</h5>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1><i class="fas fa-sliders-h"></i> Output Management</h1>
+        
+        <div class="toggle-container">
+            <div class="toggle-item">
+                <span class="toggle-label">
+                    <i class="fas fa-link"></i> Active Integration
+                </span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="activeIntegration">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="toggle-item">
+                <span class="toggle-label">
+                    <i class="fas fa-video"></i> Active Integration Hikevision NVR
+                </span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="hikevisionNVR">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="toggle-item">
+                <span class="toggle-label">
+                    <i class="fas fa-door-open"></i> Active Integration Access Controls
+                </span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="accessControls">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="toggle-item">
+                <span class="toggle-label">
+                    <i class="fas fa-camera"></i> Active Integration Dahua NVR
+                </span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="dahuaNVR">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button class="enter-button" onclick="handleRelayConfig()" id="relayConfigBtn">
+                <i class="fas fa-plug"></i> <span>Relay Configuration</span>
+            </button>
+            <button class="enter-button" onclick="handleActionTrigger()" id="actionTriggerBtn">
+                <i class="fas fa-bolt"></i> <span>Action on Trigger</span>
+            </button>
+            <button class="enter-button" onclick="handleClearBuffer()" id="clearBufferBtn">
+                <i class="fas fa-trash"></i> <span>Clear Buffer</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function handleRelayConfig() {
+        // Add your relay configuration logic here
+        console.log("Relay Configuration clicked");
+        // Add vibration feedback for mobile devices
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
+        }
+    }
+
+    function handleActionTrigger() {
+        // Add your action trigger logic here
+        console.log("Action on Trigger clicked");
+        // Add vibration feedback for mobile devices
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
+        }
+    }
+
+    function handleClearBuffer() {
+        // Add your clear buffer logic here
+        console.log("Clear Buffer clicked");
+        // Add vibration feedback for mobile devices
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
+        }
+    }
+
+    // Add event listeners for toggle switches
+    document.getElementById('activeIntegration').addEventListener('change', function(e) {
+        console.log("Active Integration:", e.target.checked);
+        // Add vibration feedback for mobile devices
+        if (navigator.vibrate) {
+            navigator.vibrate(30);
+        }
+    });
+
+    document.getElementById('hikevisionNVR').addEventListener('change', function(e) {
+        console.log("Hikevision NVR:", e.target.checked);
+        // Add vibration feedback for mobile devices
+        if (navigator.vibrate) {
+            navigator.vibrate(30);
+        }
+    });
+
+    document.getElementById('accessControls').addEventListener('change', function(e) {
+        console.log("Access Controls:", e.target.checked);
+        // Add vibration feedback for mobile devices
+        if (navigator.vibrate) {
+            navigator.vibrate(30);
+        }
+    });
+
+    document.getElementById('dahuaNVR').addEventListener('change', function(e) {
+        console.log("Dahua NVR:", e.target.checked);
+        // Add vibration feedback for mobile devices
+        if (navigator.vibrate) {
+            navigator.vibrate(30);
+        }
+    });
+
+    // Add touch event handling for mobile devices
+    document.addEventListener('DOMContentLoaded', function() {
+        // Detect if the device is mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (isMobile) {
+            document.body.classList.add('mobile-device');
+            
+            // Add touch feedback for buttons
+            const buttons = document.querySelectorAll('.enter-button');
+            buttons.forEach(function(button) {
+                button.addEventListener('touchstart', function() {
+                    this.classList.add('touch-active');
+                });
+                button.addEventListener('touchend', function() {
+                    this.classList.remove('touch-active');
+                });
+            });
+            
+            // Add touch feedback for toggle switches
+            const toggles = document.querySSelectorAll('.toggle-switch');
+            toggles.forEach(function(toggle) {
+                toggle.addEventListener('touchstart', function() {
+                    this.classList.add('touch-active');
+                });
+                toggle.addEventListener('touchend', function() {
+                    this.classList.remove('touch-active');
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}

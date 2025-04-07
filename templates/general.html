@@ -1,0 +1,195 @@
+{% extends "layout.html" %}
+{% block title %}General Maintenance Settings{% endblock %}
+
+
+
+{% block body %}
+    <!-- side-menu Ends -->
+    <!-- main content start -->
+    <div class="main-content">
+        
+                  
+          <div class= "path_content" id="path_content"> 
+                <div id="breadcrumbContainer"><h5><i class="fas fa-cog"></i> System Settings > General</h5></div>
+          </div>
+          
+
+        
+      <div class="container">
+        <!-- Brand and Site Name Section -->
+        <div class="section-card">
+            <h2 class="section-title"><i class="fas fa-building"></i> Brand and Site Information</h2>
+            <form action="/SSgeneral_data" method="post" class="settings-form">
+                <div class="form-group">
+                    <label for="brandName">Brand Name:</label>
+                    <input type="text" id="brandName" name="brandName" value="{{user2[0][0] if user2 else ''}}" placeholder="Enter brand name">
+                </div>
+                <div class="form-group">
+                    <label for="siteName">Site Name:</label>
+                    <input type="text" id="siteName" name="siteName" value="{{user2[0][1] if user2 else ''}}" placeholder="Enter site name">
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Information</button>
+            </form>
+        </div>
+
+        <!-- Clock Section -->
+        <div class="section-card">
+            <h2 class="section-title"><i class="fas fa-clock"></i> Clock Settings</h2>
+            <div class="clock-display">
+                <div id="clock" class="clock">00:00:00</div>
+                <div class="clock-controls">
+                    <div class="form-group">
+                        <label for="setHours">Hours:</label>
+                        <input type="number" id="setHours" class="clock-input" min="0" max="23" placeholder="00">
+                    </div>
+                    <div class="form-group">
+                        <label for="setMinutes">Minutes:</label>
+                        <input type="number" id="setMinutes" class="clock-input" min="0" max="59" placeholder="00">
+                    </div>
+                    <div class="form-group">
+                        <label for="setSeconds">Seconds:</label>
+                        <input type="number" id="setSeconds" class="clock-input" min="0" max="59" placeholder="00">
+                    </div>
+                    
+                </div>
+                <div class="button-group">
+                    <button onclick="setClock()" class="btn btn-secondary"><i class="fas fa-clock"></i> Set Clock</button>
+                    <button onclick="startClock()" class="btn btn-success"><i class="fas fa-play"></i> Start</button>
+                    <button onclick="stopClock()" class="btn btn-danger"><i class="fas fa-stop"></i> Stop</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Date Section -->
+        <div class="section-card">
+            <h2 class="section-title"><i class="fas fa-calendar"></i> Date Settings</h2>
+            <form action="/general_data" method="post" class="settings-form">
+                <div class="form-group">
+                    <label for="setDate">Set Date:</label>
+                    <input type="date" id="setDate" name="setDate" class="date-input">
+                </div>
+                <button type="submit" name="action" value="save_date" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Save Date</button>
+            </form>
+        </div>
+
+        <!-- Password Change Section -->
+        <div class="section-card">
+            <h2 class="section-title"><i class="fas fa-lock"></i> Change Password</h2>
+            <form action="/general_data" method="post" class="settings-form">
+                <div class="form-group">
+                    <label for="currentPassword">Current Password:</label>
+                    <input type="password" id="currentPassword" name="currentPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">New Password:</label>
+                    <input type="password" id="newPassword" name="newPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm New Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <button type="submit" name="action" value="change_password" class="btn btn-primary"><i class="fas fa-key"></i> Change Password</button>
+            </form>
+        </div>
+    </div>
+
+    </div>
+
+
+
+    <script>
+        let clockInterval;
+        let hours = 0, minutes = 0, seconds = 0;
+
+        function startClock() {
+            if (clockInterval) return;
+            clockInterval = setInterval(updateClock, 1000);
+        }
+
+        function stopClock() {
+            clearInterval(clockInterval);
+            clockInterval = null;
+        }
+
+        function setClock() {
+            hours = parseInt(document.getElementById('setHours').value) || 0;
+            minutes = parseInt(document.getElementById('setMinutes').value) || 0;
+            seconds = parseInt(document.getElementById('setSeconds').value) || 0;
+            updateClock();
+        }
+
+        function updateClock() {
+            seconds++;
+            if (seconds >= 60) {
+                seconds = 0;
+                minutes++;
+                if (minutes >= 60) {
+                    minutes = 0;
+                    hours++;
+                    if (hours >= 24) {
+                        hours = 0;
+                    }
+                }
+            }
+            document.getElementById('clock').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        // Initialize clock with current time
+        window.onload = function() {
+            const now = new Date();
+            hours = now.getHours();
+            minutes = now.getMinutes();
+            seconds = now.getSeconds();
+            updateClock();
+            
+            // Add touch event handling for mobile devices
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                document.body.classList.add('mobile-device');
+                
+                // Add vibration feedback for buttons
+                document.querySelectorAll('.btn').forEach(button => {
+                    button.addEventListener('touchstart', function() {
+                        this.classList.add('touch-active');
+                    });
+                    button.addEventListener('touchend', function() {
+                        this.classList.remove('touch-active');
+                        if (navigator.vibrate) {
+                            navigator.vibrate(30);
+                        }
+                    });
+                });
+                
+                // Make form inputs more touch-friendly
+                document.querySelectorAll('input').forEach(input => {
+                    input.addEventListener('touchstart', function() {
+                        this.classList.add('touch-focus');
+                    });
+                });
+            }
+        };
+    </script>
+            
+    </div>
+    <!-- main content Ends -->
+    <script>
+      document.querySelectorAll(".submenu-toggle").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          event.preventDefault();
+          item.nextElementSibling.classList.toggle("show");
+        });
+      });
+
+      const time = new Date().toLocaleTimeString();
+  document.getElementById("demo").innerHTML = time;
+  
+  const date = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const day= date.toLocaleDateString(undefined, options);
+    document.getElementById("demo2").innerHTML = day;
+
+
+
+    </script>
+    {% endblock %}
